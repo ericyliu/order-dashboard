@@ -6,6 +6,7 @@ import { Search } from './components/Search';
 import { listen } from './services/events';
 import { State } from './store';
 import { Order } from './store/orders';
+import { formatPrice } from './utils/format';
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -31,10 +32,7 @@ const App: FC = () => {
 
 const createFilterFn = (filter: string): ((order: Order) => boolean) => {
   return (order) => {
-    if (filter === '') return true;
-    const priceFilter = parseFloat(filter);
-    if (isNaN(priceFilter)) return true;
-    return priceFilter === round(order.price / 100, 2);
+    return formatPrice(order.price).indexOf(filter) > -1;
   };
 };
 

@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import moment from 'moment';
 import { Order } from './Order';
 import { Order as IOrder } from '../../store/orders';
+import { formatPrice } from '../../utils/format';
 
 export const columns: {
   key: keyof IOrder;
@@ -22,7 +23,7 @@ export const columns: {
   },
   {
     key: 'price',
-    formatter: (price: number) => `$${(price / 100).toFixed(2)}`,
+    formatter: formatPrice,
   },
   {
     key: 'id',
