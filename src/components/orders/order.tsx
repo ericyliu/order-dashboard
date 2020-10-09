@@ -11,7 +11,10 @@ export const Order: FC<Props> = ({ order, ...rest }) => {
   return (
     <tr {...rest}>
       {map(columns, (column) => (
-        <td key={column.key}>
+        <td
+          key={column.key}
+          style={column.style && column.style(order[column.key])}
+        >
           {column.formatter
             ? column.formatter(order[column.key])
             : order[column.key]}

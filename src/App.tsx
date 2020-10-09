@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import { chain, round } from 'lodash';
 import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,14 +20,16 @@ const App: FC = () => {
     .sortBy((order) => -order.updatedAt)
     .value();
   return (
-    <div>
-      <Search />
-      <div>
-        Showing {filteredOrders.length} Order
-        {filteredOrders.length === 1 ? '' : 's'}
-      </div>
+    <Container>
+      <Header>
+        <Search />
+        <div>
+          Showing <b>{filteredOrders.length}</b> Order
+          {filteredOrders.length === 1 ? '' : 's'}
+        </div>
+      </Header>
       <Orders orders={filteredOrders} />
-    </div>
+    </Container>
   );
 };
 
@@ -35,5 +38,16 @@ const createFilterFn = (filter: string): ((order: Order) => boolean) => {
     return formatPrice(order.price).indexOf(filter) > -1;
   };
 };
+
+const Container = styled.div({
+  padding: '4rem 4rem',
+});
+
+const Header = styled.div({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  marginBottom: '2rem',
+});
 
 export default App;
