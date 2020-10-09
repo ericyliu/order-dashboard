@@ -7,11 +7,11 @@ interface Props {
   order: IOrder;
 }
 
-export const Order: FC<Props> = ({ order }) => {
+export const Order: FC<Props> = ({ order, ...rest }) => {
   return (
-    <tr>
+    <tr {...rest}>
       {map(columns, (column) => (
-        <td>
+        <td key={column.key}>
           {column.formatter
             ? column.formatter(order[column.key])
             : order[column.key]}

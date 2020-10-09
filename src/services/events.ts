@@ -1,19 +1,20 @@
 import { Dispatch } from 'redux';
 import io from 'socket.io-client';
-import { upsertOrder } from '../store/orders';
+import { OrderStatus, upsertOrders } from '../store/orders';
 
-interface OrderEvent {
+export interface OrderEvent {
   id: string;
-  event_name: 'CREATED' | 'COOKED' | 'DRIVER_RECEIVED' | 'DELIVERED';
+  event_name: OrderStatus;
   customer: string;
   destination: string;
   item: string;
   price: number;
+  updatedAt: Date;
 }
 
 export const listen = (dispatch: Dispatch) => {
   const socket = io('http://localhost:4000');
-  socket.on('order_event', (data: OrderEvent) => {
-    dispatch(upsertOrder(data));
+  socket.on('order_event', (data: OrderEvent[]) => {
+    dispatch(upsertOrders(data));
   });
 };

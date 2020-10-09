@@ -1,9 +1,7 @@
-import { chain, map, startCase } from 'lodash';
+import { map, startCase } from 'lodash';
 import React, { FC } from 'react';
-import { useSelector } from 'react-redux';
 import moment from 'moment';
-import { State } from '../../store';
-import { Order } from './order';
+import { Order } from './Order';
 import { Order as IOrder } from '../../store/orders';
 
 export const columns: {
@@ -23,33 +21,37 @@ export const columns: {
     key: 'destination',
   },
   {
-    key: 'item',
-  },
-  {
     key: 'price',
+    formatter: (price: number) => `$${(price / 100).toFixed(2)}`,
   },
   {
     key: 'id',
   },
   {
     key: 'updatedAt',
-    formatter: (date: Date) => moment(date).format('HH:MM M/D/Y'),
+    formatter: (date: Date) => moment(date).format('h:mm:ss M/D'),
   },
 ];
 
-export const Orders: FC = () => {
-  const orders = useSelector((state: State) => state);
+interface Props {
+  orders: IOrder[];
+}
+
+export const Orders: FC<Props> = ({ orders }) => {
   return (
     <table>
-      <tr>
-        {map(columns, (column) => (
-          <th>{startCase(column.key)}</th>
+      <thead>
+        <tr>
+          {map(columns, (column) => (
+            <th key={column.key}>{startCase(column.key)}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {map(orders, (order) => (
+          <Order key={order.id} order={order} />
         ))}
-      </tr>
-      {chain(orders)
-        .sortBy((order) => order.updatedAt)
-        .map((order) => <Order order={order} />)
-        .value()}
+      </tbody>
     </table>
   );
 };
