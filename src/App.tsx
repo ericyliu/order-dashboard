@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { listen } from './services/events';
 
-function App() {
+listen();
+
+const App: FC = () => {
   return (
     <div className="App">
       <header className="App-header">
