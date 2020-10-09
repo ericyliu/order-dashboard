@@ -1,3 +1,6 @@
-import { createStore } from "redux";
+import { createStore } from 'redux';
+import { orderReducer, OrderState } from './orders';
 
-export const store = createStore(orderStore);
+export type State = OrderState;
+
+export const store = createStore(orderReducer);
